@@ -38,7 +38,21 @@ const sounds = [
   }
 ];
 
-const keydownHandler = (key) => {
+////////////////////////////////
+
+keysCollection = document.querySelectorAll(".key");
+
+for (const index in keysCollection) {
+  if (Object.hasOwnProperty.call(keysCollection, index)) {
+    keysCollection[index].innerHTML =
+      `<kdb>${arr[index].toUpperCase()}</kdb>
+      <span>${sounds[index].name}</span>`;
+  }
+}
+
+////////////////////////////////
+
+const soundHandler = (key) => {
   for (const index in arr) {
     if (Object.hasOwnProperty.call(arr, index)) {
       if (arr[index] === key) {
@@ -50,6 +64,33 @@ const keydownHandler = (key) => {
   }
 }
 
+const buttonOnPressDown = (key) => {
+  for (const index in keysCollection) {
+    if (Object.hasOwnProperty.call(keysCollection, index)) {
+      if (keysCollection[index].id === key) {
+        keysCollection[index].classList.add("pressing");
+      }
+    }
+  }
+}
+
+const buttonOnPressUp = (key) => {
+  for (const index in keysCollection) {
+    if (Object.hasOwnProperty.call(keysCollection, index)) {
+      if (keysCollection[index].id === key) {
+        keysCollection[index].classList.remove("pressing");
+      }
+    }
+  }
+}
+
+///////////////////////////////
+
 document.onkeydown = function (e) {
-  keydownHandler(e.key.toLowerCase());
+  soundHandler(e.key.toLowerCase());
+  buttonOnPressDown(e.key.toLowerCase());
+}
+
+document.onkeyup = function (e) {
+  buttonOnPressUp(e.key.toLowerCase());
 }
